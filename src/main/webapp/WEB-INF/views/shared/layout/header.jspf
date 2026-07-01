@@ -1,0 +1,102 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Hotel Booking Management System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/assets/img/favicon.png">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/owl.carousel.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/magnific-popup.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/font-awesome.min.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/themify-icons.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/nice-select.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/flaticon.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/gijgo.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/animate.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/slicknav.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/style.css">
+  <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/app-custom.css">
+</head>
+<body>
+<header>
+  <div class="header-area"><div id="sticky-header" class="main-header-area"><div class="container-fluid p-0"><div class="row align-items-center no-gutters">
+    <div class="col-xl-4 col-lg-5"><div class="main-menu d-none d-lg-block"><nav><ul id="navigation">
+      <li><a href="${pageContext.request.contextPath}/dashboard">Home</a></li>
+      <li><a href="${pageContext.request.contextPath}/rooms">Rooms</a></li>
+      <li><a href="${pageContext.request.contextPath}/booking/search">Search Rooms</a></li>
+
+      <c:if test="${not empty sessionScope.currentUser && sessionScope.currentUser.role == 'CUSTOMER'}">
+        <li><a href="#">Customer <i class="ti-angle-down"></i></a><ul class="submenu">
+          <li><a href="${pageContext.request.contextPath}/profile">Profile</a></li>
+          <li><a href="${pageContext.request.contextPath}/change-password">Change Password</a></li>
+          <li><a href="${pageContext.request.contextPath}/my-bookings">Booking History</a></li>
+          <li><a href="${pageContext.request.contextPath}/payments">Payment History</a></li>
+        </ul></li>
+      </c:if>
+
+      <c:if test="${not empty sessionScope.currentUser && (sessionScope.currentUser.role == 'RECEPTIONIST' || sessionScope.currentUser.role == 'ADMIN')}">
+        <li><a href="#">Reception <i class="ti-angle-down"></i></a><ul class="submenu">
+          <li><a href="${pageContext.request.contextPath}/customers">Customers</a></li>
+          <li><a href="${pageContext.request.contextPath}/bookings">Reservations</a></li>
+          <li><a href="${pageContext.request.contextPath}/invoices">Invoices</a></li>
+          <li><a href="${pageContext.request.contextPath}/payments">Payments</a></li>
+        </ul></li>
+      </c:if>
+
+      <c:if test="${not empty sessionScope.currentUser && (sessionScope.currentUser.role == 'STAFF' || sessionScope.currentUser.role == 'ADMIN')}">
+        <li><a href="#">Room Staff <i class="ti-angle-down"></i></a><ul class="submenu">
+          <li><a href="${pageContext.request.contextPath}/rooms">Room Status</a></li>
+          <li><a href="${pageContext.request.contextPath}/maintenance">Maintenance</a></li>
+        </ul></li>
+      </c:if>
+
+      <c:if test="${not empty sessionScope.currentUser && (sessionScope.currentUser.role == 'MANAGER' || sessionScope.currentUser.role == 'ADMIN')}">
+        <li><a href="#">Manager <i class="ti-angle-down"></i></a><ul class="submenu">
+          <li><a href="${pageContext.request.contextPath}/dashboard">Dashboard</a></li>
+          <li><a href="${pageContext.request.contextPath}/rooms">Room Status</a></li>
+          <li><a href="${pageContext.request.contextPath}/room-types">Room Types And Prices</a></li>
+          <li><a href="${pageContext.request.contextPath}/bookings">Reservations</a></li>
+          <li><a href="${pageContext.request.contextPath}/customers">Customers</a></li>
+          <li><a href="${pageContext.request.contextPath}/invoices">Invoices</a></li>
+          <li><a href="${pageContext.request.contextPath}/reports">Reports</a></li>
+        </ul></li>
+      </c:if>
+
+      <c:if test="${not empty sessionScope.currentUser && sessionScope.currentUser.role == 'ADMIN'}">
+        <li><a href="#">Admin <i class="ti-angle-down"></i></a><ul class="submenu">
+          <li><a href="${pageContext.request.contextPath}/users">Users And Roles</a></li>
+          <li><a href="${pageContext.request.contextPath}/room-types">Room Types</a></li>
+          <li><a href="${pageContext.request.contextPath}/rooms">Room Management</a></li>
+          <li><a href="${pageContext.request.contextPath}/system">System Management</a></li>
+        </ul></li>
+      </c:if>
+    </ul></nav></div></div>
+    <div class="col-xl-2 col-lg-2"><div class="logo-img"><a href="${pageContext.request.contextPath}/dashboard"><img src="${pageContext.request.contextPath}/assets/img/logo.png" alt="Hotel"></a></div></div>
+    <div class="col-xl-6 col-lg-5 d-none d-lg-block">
+      <div class="book_room header-actions">
+        <div class="auth_area">
+          <c:choose>
+            <c:when test="${not empty sessionScope.currentUser}">
+              <span class="auth_user"><i class="fa fa-user"></i> ${sessionScope.currentUser.fullName}</span>
+              <span class="role_pill">${sessionScope.currentUser.role}</span>
+              <a class="auth_link auth_secondary" href="${pageContext.request.contextPath}/change-password">Change Password</a>
+              <a class="auth_link auth_logout" href="${pageContext.request.contextPath}/logout">Logout</a>
+            </c:when>
+            <c:otherwise>
+              <a class="auth_link auth_login" href="${pageContext.request.contextPath}/login"><i class="fa fa-sign-in"></i> Login</a>
+              <a class="auth_link auth_register" href="${pageContext.request.contextPath}/register">Register</a>
+              <a class="auth_link auth_secondary" href="${pageContext.request.contextPath}/forgot-password">Forgot Password</a>
+            </c:otherwise>
+          </c:choose>
+        </div>
+        <div class="book_btn d-none d-lg-block"><a href="${pageContext.request.contextPath}/booking/search">Book A Room</a></div>
+      </div>
+    </div>
+    <div class="col-12"><div class="mobile_menu d-block d-lg-none"></div></div>
+  </div></div></div></div>
+</header>
+<main>
